@@ -1,24 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
+const Homepage = lazy(() => import('./components/Homepage.jsx'));
+const ProductDetail = lazy(() => import('./components/ProductDetail.jsx'));
+const Checkout = lazy(() => import('./components/Checkout'));
+const PaymentStatus = lazy(() => import('./components/PaymentStatus.jsx'));
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<Homepage/>} />
+          <Route path="/product/:id" element={<ProductDetail/>} />
+          <Route path="/checkout" element={<Checkout/>} />
+          <Route path="/payment-status" element={<PaymentStatus/>} />
+        </Routes>
+      </Suspense>
+    </Router>
   );
 }
 
